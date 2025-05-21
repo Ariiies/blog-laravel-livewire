@@ -14,6 +14,8 @@
 
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+            @stack('css')
+
             <link rel="preconnect" href="https://fonts.bunny.net">
             <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
@@ -148,7 +150,7 @@
         @fluxScripts
             @if (session('swal'))
                 <script>
-                    swal.fire(@json(session('swal')));   
+                    Swal.fire(@json(session('swal')));   
                 </script>
             @endif
 

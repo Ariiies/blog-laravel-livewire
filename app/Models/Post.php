@@ -2,13 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Observers\PostObserver;
+
+#[ObservedBy(PostObserver::class)]
 
 class Post extends Model
 {
     use HasFactory;
     
+
+    // para la ruta de slug
+    public function getRouteKeyName(){
+        return 'slug'; // esto permite que la ruta use el slug en vez del id
+    }
     protected $fillable = [
         'title',
         'slug',

@@ -30,7 +30,6 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //return $request->all();
         $request->validate([
             'title' => 'required|string|max:255',
             'slug' => 'required|string|max:255|unique:posts,slug',
@@ -42,9 +41,13 @@ class PostController extends Controller
             'is_published' => 'boolean'
         ]);
 
-        //return $request->all();
+        $data = $request->all();
 
-        Post::create($request->all());
+        if (!empty($data['is_published']) && $data['is_published']) {
+            $data['published_at'] = now();
+        }
+
+        Post::create($data);
         $posts = Post::orderBy('id', 'desc')->paginate(12);
         session()->flash('swal', ['icon' => 'success', 'title' => 'Post created successfully.']);
         return redirect()->route('posts.index', compact('posts'))
@@ -56,7 +59,9 @@ class PostController extends Controller
      */
     public function show(Post $post){
 
+        
         $post = Post::find($post->id);
+        
         return view('admin.posts.show', compact('post'));
     }
 
@@ -84,6 +89,13 @@ class PostController extends Controller
         ]);
 
         $data = $request->except('user_id');
+
+        if (!empty($data['is_published']) && $data['is_published']) {
+            $data['published_at'] = now();
+        } else {
+            $data['published_at'] = null;
+        }
+
         $post->update($data);
         session()->flash('swal', ['icon' => 'success', 'title' => 'Post updated successfully.']);
         return redirect()->route('posts.index')
@@ -95,6 +107,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        session()->flash('swal', ['icon' => 'success', 'title' => 'Post deleted successfully.']);
+        return redirect()->route('posts.index')
+            ->with('success', 'Post deleted successfully.');
     }
 }
