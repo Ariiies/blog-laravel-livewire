@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Category;
+use App\Models\Post;
+use Database\Factories\CategoryFactory;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -15,9 +18,11 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Seeder personalizado
+        $this->call(PersonalizedSeeder::class);
+
+        // seeders
+        Category::factory(10)->create();
+        Post::factory(100)->create();
     }
 }

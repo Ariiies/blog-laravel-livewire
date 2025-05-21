@@ -1,33 +1,49 @@
+@props(['title' => 'mi_app'])
+
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
     <head>
-        @include('partials.head')
+        <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+            <title>{{ $title  }}</title>
+
+            <link rel="icon" href="/favicon.ico" sizes="any">
+            <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+            <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+            <link rel="preconnect" href="https://fonts.bunny.net">
+            <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+
+            @vite(['resources/css/app.css', 'resources/js/app.js'])
+            @fluxAppearance
+
     </head>
     <body class="min-h-screen bg-white dark:bg-zinc-800">
         <flux:sidebar sticky stashable class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
             <flux:sidebar.toggle class="lg:hidden" icon="x-mark" />
 
-            <a href="{{ route('dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
+            <a href="{{ route('admin.dashboard') }}" class="me-5 flex items-center space-x-2 rtl:space-x-reverse" wire:navigate>
                 <x-app-logo />
             </a>
 
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Platform')" class="grid">
-                    <flux:navlist.item icon="home" :href="route('dashboard')" :current="request()->routeIs('dashboard')" wire:navigate>{{ __('Dashboard') }}</flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('admin.dashboard')" :current="request()->routeIs('admin.dashboard')" wire:navigate>
+                        {{ __('Dashboard') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item icon="document" :href="route('posts.index')" :current="request()->routeIs('admin.posts.*')" wire:navigate>
+                        {{ __('Posts') }}
+                    </flux:navlist.item>
+                    <flux:navlist.item icon="tag" :href="route('categories.index')" :current="request()->routeIs('admin.categories.*')" wire:navigate>
+                        {{ __('Categories') }}
+                    </flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 
             <flux:spacer />
-
-            <flux:navlist variant="outline">
-                <flux:navlist.item icon="folder-git-2" href="https://github.com/laravel/livewire-starter-kit" target="_blank">
-                {{ __('Repository') }}
-                </flux:navlist.item>
-
-                <flux:navlist.item icon="book-open-text" href="https://laravel.com/docs/starter-kits#livewire" target="_blank">
-                {{ __('Documentation') }}
-                </flux:navlist.item>
-            </flux:navlist>
 
             <!-- Desktop User Menu -->
             <flux:dropdown position="bottom" align="start">
@@ -125,8 +141,17 @@
             </flux:dropdown>
         </flux:header>
 
-        {{ $slot }}
+        <flux:main>
+            {{ $slot }}
+        </flux:main>
 
         @fluxScripts
+            @if (session('swal'))
+                <script>
+                    swal.fire(@json(session('swal')));   
+                </script>
+            @endif
+
+            @stack('js')
     </body>
 </html>
