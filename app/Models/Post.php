@@ -13,6 +13,19 @@ class Post extends Model
 {
     use HasFactory;
     
+    // En tu modelo Post.php:
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($model) {
+            if (filter_var($model->is_published, FILTER_VALIDATE_BOOLEAN)) {
+                $model->published_at = $model->published_at ?? now();
+            } else {
+                $model->published_at = null;
+            }
+        });
+    }
 
     // para la ruta de slug
     public function getRouteKeyName(){
@@ -30,8 +43,8 @@ class Post extends Model
         'published_at'
     ];
     protected $casts = [
-        'published_at' => 'datetime',
         'is_published' => 'boolean',
+        'published_at' => 'datetime',
     ];
 
     // Define the relationship with the User model
@@ -48,7 +61,7 @@ class Post extends Model
     }
     // Define the relationship with the Tag model
     // This assumes that a post can have many tags
-    public function tag()
+    public function tags()
     {
         return $this->belongsToMany(Tag::class);
     }

@@ -32,6 +32,7 @@ window.remove_preview = (event, selector) => {
     const label = document.querySelector('#btn-quit');
     if (label) {
         label.classList.add('hidden');
+		image_path.value = 'delete';
     }
     
     // Resetear el input file

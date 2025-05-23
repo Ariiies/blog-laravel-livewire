@@ -18,7 +18,7 @@
 <div class="max-w-4xl mx-auto mt-10 bg-white p-10 rounded-lg shadow-md border border-gray-200 w-full">
     <h1 class="text-2xl font-bold mb-6 text-gray-800">Create New Post</h1>
     
-    <form action="{{ route('posts.store') }}" method="POST" class="space-y-5">
+    <form action="{{ route('posts.store') }}" method="POST" class="space-y-5" enctype="multipart/form-data">
         @csrf
 
         <div class="relative mb-2">
@@ -30,8 +30,8 @@
             </label>
 
             <div class="mt-2">
-                <label for="" onclick="remove_preview(event, '#prev_image')" id="btn-quit" class="hidden  bg-red-400 hover:bg-gray-300 cursor-pointer text-white text-xs font-medium py-1.5 px-3 rounded transition focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 block">
-                    Quitar
+                <label for="" onclick="remove_preview(event, '#prev_image')" id="btn-quit" class="hidden  bg-red-400 hover:bg-gray-300 cursor-pointer text-white text-xs font-medium py-1.5 px-3 rounded transition focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
+                    Remove
                 </label>
             </div>
             
@@ -54,6 +54,39 @@
                    placeholder="post-url-slug" required>
         </div>
 
+
+         <div>
+            <textarea id="body" name="body" id="content" rows="6" 
+                        class="hidden" 
+                        required></textarea>
+        </div> 
+        
+        <div>
+                <p class="text-black font-medium text-sm mb-1">Body</p>
+                <div id="editor" 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition text-gray-700 placeholder-gray-400"
+                    style="min-height: 350px; height: 350px;">
+                    
+                </div>
+            </div>
+
+            <div>
+                <?php
+                    $tags = \App\Models\Tag::all();
+                ?>
+                <label for="tags" class="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+                <select
+                    id="tags"
+                    name="tags[]"
+                    multiple="multiple"
+                    class="w-full" >
+                    @foreach ($tags as $tag)
+                        <option value="{{ $tag->name }}">{{ $tag->name }}</option>
+                    @endforeach
+                    <option value="1">Tag 1</option>
+                </select>
+            </div>
+
         <div>
             <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
             <select name="category_id" id="category_id" 
@@ -73,45 +106,10 @@
             <textarea name="excerpt" id="excerpt" rows="3" 
                       class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition text-gray-700 placeholder-gray-400" 
                       placeholder="Brief description..." required></textarea>
-        </div>
         
-        <div>
-                <p class="text-black font-medium text-sm mb-1">Body</p>
-                <div id="editor" 
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition text-gray-700 placeholder-gray-400"
-                    style="min-height: 350px; height: 350px;">
-                    
-                </div>
-            </div>
-
-            <div>
-                <label for="tags" class="block text-sm font-medium text-gray-700 mb-1">Tags</label>
-                <select
-                    id="tags"
-                    name="tags[]"
-                    multiple="multiple"
-                    class="w-full" >
-                    <option value="1">Tag 1</option>
-                    <option value="2">Tag 2</option>
-                    <option value="3">Tag 3</option>
-                    <option value="4">Tag 4</option>
-                    <option value="5">Tag 5</option>
-                    <option value="6">Tag 6</option>
-                </select>
-            </div>
-
-        <div>
-                <textarea id="body" name="body" id="content" rows="6" 
-                        class="hidden" 
-                        required></textarea>
-        </div> 
-        
-        <div>
-            <label for="image_path" class="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
-            <input type="text" name="image_path" id="image_path" 
-                   class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition text-gray-700 placeholder-gray-400" 
-                   placeholder="https://example.com/image.jpg">
         </div>
+        {{-- hidden input --}}
+       <input type="hidden" name="image_path" id="image_path" value="">
 
         <div>
             <label for="is_published" class="block text-sm font-medium text-gray-700 mb-1">Visibility</label>

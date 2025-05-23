@@ -3,12 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Tag extends Model
 {
+    use HasFactory;
     //
     protected $fillable = [
-        'name'
+        'name',
+        'created_at',
+        'updated_at',
     ];
 
     // Define the relationship with the Post model

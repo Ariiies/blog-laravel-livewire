@@ -1,12 +1,14 @@
-<x-layouts.admin>
-    <!-- breadcrumbs -->
-    <flux:breadcrumbs class="mb-6">
-        <flux:breadcrumbs.item href="{{ route('admin.dashboard') }}" icon="table-cells"/>
-        <flux:breadcrumbs.item href="{{ route('posts.index') }}">Posts</flux:breadcrumbs.item>
-        <flux:breadcrumbs.item>Post</flux:breadcrumbs.item>
-    </flux:breadcrumbs>
-
+<x-layouts.app>
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-4xl mx-auto">
+        <!-- Go Back Button -->
+        <div class="flex justify-end">
+            <a href="/" class="inline-flex items-center px-4 py-2 mb-6 text-sm font-medium text-gray-700 bg-gray-100 rounded hover:bg-gray-200 transition-colors">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            Go Back
+            </a>
+        </div>
         <!-- Header with title and meta -->
         <div class="mb-8">
             <h1 class="text-3xl font-bold text-gray-900 mb-3">{{ $post->title }}</h1>
@@ -97,4 +99,5 @@
             });
         </script>
     @endpush
-</x-layouts.admin>
+
+</x-layouts.app>

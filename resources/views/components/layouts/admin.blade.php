@@ -36,6 +36,9 @@
                     <flux:navlist.item icon="home" :href="route('admin.dashboard')" :current="request()->routeIs('admin.dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:navlist.item>
+                    <flux:navlist.item icon="users" :href="url('/')" :current="request()->is('/')" wire:navigate>
+                        {{ __('Public View') }}
+                    </flux:navlist.item>
                     <flux:navlist.item icon="document" :href="route('posts.index')" :current="request()->routeIs('admin.posts.*')" wire:navigate>
                         {{ __('Posts') }}
                     </flux:navlist.item>
@@ -150,9 +153,28 @@
         @fluxScripts
             @if (session('swal'))
                 <script>
-                    Swal.fire(@json(session('swal')));   
+                    Swal.fire({!! Js::from(session('swal')) !!});   
                 </script>
             @endif
+            @if($errors->any())
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: `
+                            <div class="text-sm">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        `,
+        
+                    });
+                </script>
+            @endif
+           
 
             @stack('js')
     </body>

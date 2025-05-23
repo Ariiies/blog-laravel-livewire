@@ -2,10 +2,28 @@
 
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
+use App\Models\Post;
+use App\Http\Controllers\HomeController;
 
+
+Route::get('/', [HomeController::class, 'index'])
+    ->name('home');
+Route::get('post/{post}', [HomeController::class, 'show'])
+    ->name('post.show');
+/*
 Route::get('/', function () {
-    return view('welcome');
+    $posts = Post::where('is_published', true)
+                     ->whereNotNull('published_at')
+                     ->latest('published_at')
+                     ->paginate(12);
+    return view('welcome', compact('posts'));
 })->name('home');
+
+Route::get('post/{post}', function (Post $post) {
+   
+    return view('post', compact('post'));
+})->name('post.show');
+*/
 /* Ruta innecesaria
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

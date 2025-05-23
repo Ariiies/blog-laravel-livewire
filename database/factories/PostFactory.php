@@ -25,7 +25,6 @@ class PostFactory extends Factory
             'excerpt' => $this->faker->sentence,
             'is_published' => $this->faker->boolean,
             'slug' => $this->faker->slug,
-            'image_path' => "-",
             'category_id' =>Category::all()->random()->id,
             'published_at' => $this->faker->dateTime(),
             'created_at' => now(),
