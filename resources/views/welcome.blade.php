@@ -1,5 +1,5 @@
 <x-layouts.app>
-    
+  
 <div class="min-h-screen bg-black-500 flex justify-center items-center py-12">
     <div class="w-full max-w-4xl mx-4 bg-gray-200 rounded-2xl shadow-sm border border-gray-200 p-8 md:p-10">
         <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-6 tracking-tight">Blog Posts</h1>
@@ -21,11 +21,20 @@
                                             <span class="text-gray-500 text-sm">by {{ $post->user->name }}</span>
                                         </div>
                                         <p class="text-gray-700 mt-2 text-base leading-relaxed">
-                                            {{ Str::limit(strip_tags($post->body), 150, '...') }}
+                                            {!! Str::limit(strip_tags($post->excerpt ), 150, '...') !!}
                                         </p>
-                                        <span class="inline-block bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full mt-3">
-                                            Category: {{ $post->category->name }}
-                                        </span>
+                                        <div class="flex items-center gap-2 mt-3 flex-wrap">
+                                            <span class="inline-block bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1 rounded-full">
+                                                Category: {{ $post->category->name }}
+                                            </span>
+                                            @if ($post->tags && $post->tags->count())
+                                                @foreach ($post->tags as $tag)
+                                                    <span class="inline-block bg-blue-100 text-blue-700 text-xs font-medium px-3 py-1 rounded-full">
+                                                        #{{ $tag->name }}
+                                                    </span>
+                                                @endforeach
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="text-sm text-gray-500 mt-4 md:mt-0">
@@ -45,30 +54,10 @@
         <div class="mt-10 flex justify-center">
             {{ $posts->links() }}
         </div>
+        
     </div>
 </div>
 
-<!-- Custom Pagination Styles -->
-<style>
-    .pagination {
-        @apply flex gap-2 items-center justify-center mt-6;
-    }
 
-    .pagination a,
-    .pagination span {
-        @apply px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200;
-    }
 
-    .pagination a {
-        @apply bg-gray-100 text-gray-700 hover:bg-gray-300 hover:text-gray-900 border border-gray-200;
-    }
-
-    .pagination .current {
-        @apply bg-gray-300 text-gray-900 border-gray-300;
-    }
-
-    .pagination .disabled {
-        @apply bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed;
-    }
-</style>
 </x-layouts.app>

@@ -11,14 +11,29 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Intervention\image\laravel\Facades\Image;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class PostController extends Controller
+class PostController extends Controller implements HasMiddleware
 {
+    public static function middleware(): array
+    {
+        return [Middleware::class => ['auth', 'can:manage posts']];
+    }
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $data = $request->all();
+        
+        if(isset($data['only_mine'])) {
+            $posts = Post::orderBy('id', 'desc')
+            ->where('user_id', auth()->user()->id)
+        ->paginate(12);
+        return view('admin.posts.index', compact('posts'));
+        }
+            
         $posts = Post::orderBy('id', 'desc')
         //->where('user_id', auth()->user()->id)
         ->paginate(12);

@@ -41,36 +41,38 @@
 
         <!-- Actions -->
         @auth
-        <div class="flex items-center justify-end pt-6 border-t border-gray-100 relative">
-            <div x-data="{ open: false }" class="relative">
-            <button @click="open = !open" class="p-2 rounded-full hover:bg-gray-100 transition-colors focus:outline-none">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <circle cx="12" cy="6" r="1.5"/>
-                <circle cx="12" cy="12" r="1.5"/>
-                <circle cx="12" cy="18" r="1.5"/>
-                </svg>
-            </button>
-            <div 
-                x-show="open" 
-                @click.away="open = false" 
-                x-transition 
-                class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-10"
-            >
-                <a href="{{ route('posts.edit', $post) }}" 
-                   class="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-t-lg transition-colors">
-                Edit
-                </a>
-                <form class="delete-form" action="{{ route('posts.destroy', $post) }}" method="POST">
-                @csrf
-                @method('DELETE')
-                <button type="submit" 
-                    class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 rounded-b-lg transition-colors">
-                    Delete
-                </button>
-                </form>
+        @can('author', $post)
+            <div class="flex items-center justify-end pt-6 border-t border-gray-100 relative">
+                <div x-data="{ open: false }" class="relative">
+                    <button @click="open = !open" class="p-2 rounded-full hover:bg-gray-100 transition-colors focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <circle cx="12" cy="6" r="1.5"/>
+                            <circle cx="12" cy="12" r="1.5"/>
+                            <circle cx="12" cy="18" r="1.5"/>
+                        </svg>
+                    </button>
+                    <div 
+                        x-show="open" 
+                        @click.away="open = false" 
+                        x-transition 
+                        class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-10"
+                    >
+                        <a href="{{ route('posts.edit', $post) }}" 
+                           class="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-t-lg transition-colors">
+                            Edit
+                        </a>
+                        <form class="delete-form" action="{{ route('posts.destroy', $post) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" 
+                                class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 rounded-b-lg transition-colors">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
-            </div>
-        </div>
+        @endcan
         @endauth
     </div>
     @push('js')

@@ -4,7 +4,13 @@
         <flux:breadcrumbs.item href="{{ route('admin.dashboard') }}" icon="table-cells"/>
         <flux:breadcrumbs.item>Posts</flux:breadcrumbs.item>
     </flux:breadcrumbs>
-
+    <form method="GET" action="{{ route('posts.index') }}" class="mb-4 flex items-center gap-2">
+        <label class="inline-flex items-center">
+            <input type="checkbox" name="only_mine" value="1" {{ request('only_mine') ? 'checked' : '' }} class="form-checkbox text-blue-600">
+            <span class="ml-2">Mostrar solo mis posts</span>
+        </label>
+        <button type="submit" class="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600">Filtrar</button>
+    </form>
     <div class="relative overflow-x-auto rounded-lg shadow">
         <table class="w-full text-sm text-left rtl:text-right text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">
             <thead class="text-xs uppercase bg-blue-50 dark:bg-gray-700 text-blue-900 dark:text-gray-200">
@@ -20,6 +26,7 @@
             <tbody>
                 <!-- table elements  -->
                 @foreach ($posts as $post)
+                   
                     <tr class="{{ $loop->even ? 'bg-blue-100 dark:bg-gray-700' : 'bg-white dark:bg-gray-800' }} border-b border-gray-200 dark:border-gray-700">
                         <th class="px-6 py-4 font-medium whitespace-nowrap">{{ $post->id }}</th>
                         <td class="px-6 py-4">
@@ -28,18 +35,25 @@
                             </a>
                         </td>
                         <td class="px-6 py-4">
-                            {{-- Si tienes relación con User, muestra el nombre, si no, solo el ID --}}
                             {{ $post->user->name ?? $post->user_id }}
                         </td>
                         <td class="px-6 py-4">
-                            <a href="{{ route('posts.edit', $post) }}" class="text-blue-600 hover:text-blue-900 font-semibold">Edit</a>
+                            @can('author', $post)    
+                                <a href="{{ route('posts.edit', $post) }}" class="text-blue-600 hover:text-blue-900 font-semibold">Edit</a>
+                            @else
+                                <span class="text-gray-400">No Authorized</span>
+                            @endcan
                         </td>
                         <td class="px-6 py-4">
-                            <form class="delete-form" action="{{ route('posts.destroy', $post) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-900 font-semibold">Delete</button>
-                            </form>
+                            @can('author', $post) 
+                                <form class="delete-form" action="{{ route('posts.destroy', $post) }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-900 font-semibold">Delete</button>
+                                </form>
+                            @else
+                                <span class="text-gray-400">No Authorized</span>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach

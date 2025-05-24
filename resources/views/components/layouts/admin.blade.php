@@ -33,18 +33,35 @@
 
             <flux:navlist variant="outline">
                 <flux:navlist.group :heading="__('Platform')" class="grid">
+
                     <flux:navlist.item icon="home" :href="route('admin.dashboard')" :current="request()->routeIs('admin.dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:navlist.item>
-                    <flux:navlist.item icon="users" :href="url('/')" :current="request()->is('/')" wire:navigate>
+    
+                    <flux:navlist.item icon="computer-desktop" :href="url('/')" :current="request()->is('/')" wire:navigate>
                         {{ __('Public View') }}
                     </flux:navlist.item>
+
                     <flux:navlist.item icon="document" :href="route('posts.index')" :current="request()->routeIs('admin.posts.*')" wire:navigate>
                         {{ __('Posts') }}
                     </flux:navlist.item>
+
                     <flux:navlist.item icon="tag" :href="route('categories.index')" :current="request()->routeIs('admin.categories.*')" wire:navigate>
                         {{ __('Categories') }}
                     </flux:navlist.item>
+
+                    <flux:navlist.item icon="key" :href="route('permissions.index')" :current="request()->routeIs('admin.permissions.*')" wire:navigate>
+                        {{ __('Permissions') }}
+                    </flux:navlist.item>
+
+                    <flux:navlist.item icon="clipboard" :href="route('roles.index')" :current="request()->routeIs('admin.roles.*')" wire:navigate>
+                        {{ __('Roles') }}
+                    </flux:navlist.item>
+
+                    <flux:navlist.item icon="users" :href="route('users.index')"  :current="request()->routeIs('admin.users.*')" wire:navigate>
+                        {{ __('Users') }}
+                    </flux:navlist.item>
+
                 </flux:navlist.group>
             </flux:navlist>
 

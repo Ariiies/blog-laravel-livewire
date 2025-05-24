@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Category;
 use App\Models\Tag;
 
+
 class PersonalizedSeeder extends Seeder
 {
     /**
@@ -20,12 +21,12 @@ class PersonalizedSeeder extends Seeder
             [
             'name' => 'Aries Allen',
             'email' => 'aries@allen.com',
-            'password' => bcrypt('ari'),
+            'password' => bcrypt('ariesallen'),
             ],
             [
             'name' => 'Paula Cervon',
             'email' => 'paula@cervon.com',
-            'password' => bcrypt('pau'),
+            'password' => bcrypt('paulacervon'),
             ],
             [
             'name' => 'Robin Kael',
@@ -33,21 +34,32 @@ class PersonalizedSeeder extends Seeder
             'password' => bcrypt('rob'),
             ],
             [
-            'name' => 'luisa meza',
-            'email' => 'luisa@meza.com',
-            'password' => bcrypt('lu'),
+            'name' => 'luis meza',
+            'email' => 'luis@meza.com',
+            'password' => bcrypt('luismeza'),
+            ],
+             [
+            'name' => 'Dora Castillo',
+            'email' => 'dora@castillo.com',
+            'password' => bcrypt('doracastillo'),
+             ],
+            [
+            'name' => 'Sofia Steinberg',
+            'email' => 'sofia@steinberg.com',
+            'password' => bcrypt('steinberg'),
             ],
             [
-            'name' => 'Aeris Steinberg',
-            'email' => 'aeris@steinbergcom',
-            'password' => bcrypt('stein'),
+            'name' => 'test user',
+            'email' => 'test@user.com',
+            'password' => bcrypt('testuser'),
             ],
+            
         ];
 
         foreach ($users as $user) {
             User::factory()->create($user);
         }
-
+        
         $categories = [
             'action',
             'filosofia',
@@ -83,6 +95,7 @@ class PersonalizedSeeder extends Seeder
             Tag::factory()->create(['name' => $tag]);
         }
 
+        
 
     }
 }

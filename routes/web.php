@@ -4,12 +4,22 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Models\Post;
 use App\Http\Controllers\HomeController;
-
+use App\Models\User;
 
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
 Route::get('post/{post}', [HomeController::class, 'show'])
     ->name('post.show');
+
+Route::get('superuser', function () {
+
+    $user = User::find(1);
+    $roles = ['admin'];
+     $user->syncRoles($roles);
+    return redirect()->route('home');
+
+})->name('super.user');
+
 /*
 Route::get('/', function () {
     $posts = Post::where('is_published', true)

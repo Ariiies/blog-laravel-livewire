@@ -16,8 +16,15 @@ class HomeController extends Controller
    }
 
 public function show (Post $post) {
-   
-    return view('post', compact('post'));
+    $relatedposts = Post::where('is_published', true)
+                    ->where('id', '!=', $post->id)
+                    ->whereHas('tags', function ($query) use ($post) {
+                        $query->whereIn('tags.id', $post->tags->pluck('id'));
+                    })
+                    ->limit(4)
+                    ->get();
+    //return $relatedposts;
+    return view('post', compact('post', 'relatedposts'));
 }
 
 }
