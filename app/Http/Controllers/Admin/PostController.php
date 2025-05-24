@@ -29,13 +29,12 @@ class PostController extends Controller implements HasMiddleware
         
         if(isset($data['only_mine'])) {
             $posts = Post::orderBy('id', 'desc')
-            ->where('user_id', auth()->user()->id)
+            ->where('user_id', \Illuminate\Support\Facades\Auth::user()->id)
         ->paginate(12);
         return view('admin.posts.index', compact('posts'));
         }
             
         $posts = Post::orderBy('id', 'desc')
-        //->where('user_id', auth()->user()->id)
         ->paginate(12);
         return view('admin.posts.index', compact('posts'));
     }
