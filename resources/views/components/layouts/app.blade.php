@@ -81,7 +81,11 @@
                     <flux:menu.separator />
 
                     <flux:menu.radio.group>
-                        <flux:menu.item :href="route('admin.dashboard')" icon="key" wire:navigate>{{ __('Admin') }}</flux:menu.item>
+                        <flux:menu.item :href="route('profile')" icon="user" wire:navigate>{{ __('Profile') }}</flux:menu.item>
+                        @can('access dashboard')
+                            <flux:menu.item :href="route('admin.dashboard')" icon="key" wire:navigate>{{ __('Admin') }}</flux:menu.item>
+                        @endcan
+                        {{-- <flux:menu.item :href="route('test')" icon="cog" wire:navigate>{{ __('Test') }}</flux:menu.item>--}}
                         <flux:menu.item :href="route('settings.profile')" icon="cog" wire:navigate>{{ __('Settings') }}</flux:menu.item>
                     </flux:menu.radio.group>
 

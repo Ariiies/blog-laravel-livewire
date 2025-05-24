@@ -4,13 +4,26 @@ use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 use App\Models\Post;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TestController;
 use App\Models\User;
 
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
+
 Route::get('post/{post}', [HomeController::class, 'show'])
     ->name('post.show');
 
+Route::get('profile', [HomeController::class, 'profile'])
+    ->name('profile');
+
+
+
+Route::get('test', [TestController::class, 'index'])
+    ->name('test');
+
+Route::get('test/prueba', [TestController::class, 'preba'])
+    ->name('test.prueba');
+/*
 Route::get('superuser', function () {
 
     $user = User::find(1);
@@ -19,7 +32,7 @@ Route::get('superuser', function () {
     return redirect()->route('home');
 
 })->name('super.user');
-
+*/
 /*
 Route::get('/', function () {
     $posts = Post::where('is_published', true)
