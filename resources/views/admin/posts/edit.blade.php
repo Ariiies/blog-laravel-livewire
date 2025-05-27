@@ -86,16 +86,19 @@
 
             <div>
                 <label for="tags" class="block text-sm font-medium text-gray-700 mb-1">Tags</label>
-                <select id="tags" name="tags[]" multiple="multiple" class="w-full">
-                    @foreach ($tags as $tag)
-                        <option value="{{ $tag->name }}" @selected(in_array($tag->name, old('tags', $post->tags->pluck('name')->toArray())))>{{ $tag->name }}</option>
+                <select name="tags[]" id="tags" multiple="multiple"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-200 focus:border-blue-400 transition text-gray-700">
+                    @foreach($tags as $tag)
+                        <option value="{{ $tag->name }}"
+                            {{ collect(old('tags', $post->tags->pluck('name')->toArray()))->contains($tag->name) ? 'selected' : '' }}>
+                            {{ $tag->name }}
+                        </option>
                     @endforeach
                 </select>
                 @error('tags')
                     <span class="text-red-500 text-sm">{{ $message }}</span>
                 @enderror
             </div>
-
             <div>
                 <label for="category_id" class="block text-sm font-medium text-gray-700 mb-1">Category</label>
                 <select name="category_id" id="category_id" 

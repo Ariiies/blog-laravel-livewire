@@ -8,10 +8,11 @@ class Counter extends Component
 {
      public $count = 0;
  
-    public function increment()
+    public function increment($amout)
     {
-        $this->count++;
+        $this->count += $amout;
     }
+     
 
     public function decrement()
     {

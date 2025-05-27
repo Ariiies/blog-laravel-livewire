@@ -15,6 +15,9 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @stack('css')
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @fluxAppearance
 </head>
@@ -82,6 +85,7 @@
 
                     <flux:menu.radio.group>
                         <flux:menu.item :href="route('profile')" icon="user" wire:navigate>{{ __('Profile') }}</flux:menu.item>
+                        <flux:menu.item :href="route('post.create')" icon="document" wire:navigate>{{ __('Create Post') }}</flux:menu.item>
                         @can('access dashboard')
                             <flux:menu.item :href="route('admin.dashboard')" icon="key" wire:navigate>{{ __('Admin') }}</flux:menu.item>
                         @endcan
@@ -142,7 +146,32 @@
             </flux:main>
 
             
-
     @fluxScripts
+            @if (session('swal'))
+                <script>
+                    Swal.fire({!! Js::from(session('swal')) !!});   
+                </script>
+            @endif
+            @if($errors->any())
+                <script>
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        html: `
+                            <div class="text-sm">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        `,
+        
+                    });
+                </script>
+            @endif
+           
+
+            @stack('js')
 </body>
 </html>

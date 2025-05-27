@@ -1,3 +1,4 @@
+<div>
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 max-w-4xl mx-auto mt-8">
         <!-- Go Back Button -->
         <div class="flex justify-end">
@@ -68,14 +69,16 @@
                 x-transition 
                 class="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-10"
             >
-                <a href="{{ route('posts.edit', $post) }}" 
-                   class="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-t-lg transition-colors">
-                Edit
+                <a 
+                    href="{{ route('post.edit', $post) }}" 
+                    class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-t-lg transition-colors"
+                >
+                    Edit: {{$post->slug}}
                 </a>
-                <form class="delete-form" action="{{ route('posts.destroy', $post) }}" method="POST">
+                <form class="delete-form" method="POST" >
                 @csrf
                 @method('DELETE')
-                <button type="submit" 
+                <button type="submit" wire:click.prevent="deletePost({{ $post->id }})" {{-- tal vez seria recomendable usar un controlador tradicional --}}
                     class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 rounded-b-lg transition-colors">
                     Delete
                 </button>
@@ -185,3 +188,4 @@
         });
     </script>
     @endpush
+</div> 

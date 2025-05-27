@@ -6,8 +6,9 @@
         <ul class="space-y-6">
             @foreach ($posts as $post)
                 @if ($post->is_published && $post->published_at)
-                    <li class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md hover:bg-gray-100 transition-all duration-200">
-                        <a href="{{ route('post.show', ['post' => $post->slug]) }}" class="block">
+                    <li class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md hover:bg-gray-100 transition-all duration-200"
+                    wire:key="post-{{ $post->id }}">
+                        <a href="{{ route('post.show', $post->slug) }}" class="block" wire:navigate>
                             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                 <div class="flex items-start gap-4">
                                     @if ($post->image_path)

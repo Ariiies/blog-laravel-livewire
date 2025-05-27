@@ -6,17 +6,13 @@ use App\Models\Post;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestController;
 use App\Models\User;
+// use App\Http\Livewire\Posts\ShowPost;
 
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
 
-Route::get('post/{post}', [HomeController::class, 'show'])
-    ->name('post.show');
-
 Route::get('profile', [HomeController::class, 'profile'])
     ->name('profile');
-
-
 
 Route::get('test', [TestController::class, 'index'])
     ->name('test');
@@ -61,4 +57,5 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+require __DIR__.'/posts.php';
 //require __DIR__.'/admin.php';
