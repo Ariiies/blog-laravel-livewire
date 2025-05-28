@@ -5,9 +5,11 @@ namespace App\Livewire\Posts;
 use Livewire\Component;
 use App\Models\Post;
 use Illuminate\Support\Facades\Storage;
+use Livewire\WithPagination;
 
 class PostDetail extends Component
 {
+   use WithPagination;
    public Post $post;
    public $relatedposts;
     
@@ -28,6 +30,9 @@ class PostDetail extends Component
             ->latest('published_at')
             ->take(4)
             ->get();
+
+
+
         }
 
     public function deletePost($postId)
@@ -51,6 +56,7 @@ class PostDetail extends Component
     
     public function render()
     {
+         
         return view('livewire.posts.post-detail');
     }
 }

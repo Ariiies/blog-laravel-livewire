@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Post;
+use App\Models\Comment;
 
 class User extends Authenticatable
 {
@@ -64,5 +66,11 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    // Define rlationship with comments
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }

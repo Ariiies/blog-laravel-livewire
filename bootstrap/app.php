@@ -11,11 +11,17 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
         then: function(){
-            // This is where you can add any additional configuration or middleware
-            // for your application.
+            // Protege todas las rutas de admin con 'auth'
             Route::middleware('web', 'auth')
-            ->prefix('admin')
-            ->group(base_path('routes/admin.php'));
+                ->prefix('admin')
+                ->group(base_path('routes/admin.php'));
+                // Protege las rutas de posts con 'auth'
+            Route::middleware('web', 'auth')
+                ->prefix('user')
+                ->group(base_path('routes/posts.php'));
+                
+            
+
         }
     )
     ->withMiddleware(function (Middleware $middleware) {
@@ -23,4 +29,5 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
-    })->create();
+    })
+    ->create();

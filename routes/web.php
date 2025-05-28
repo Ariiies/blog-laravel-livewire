@@ -7,9 +7,14 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestController;
 use App\Models\User;
 // use App\Http\Livewire\Posts\ShowPost;
+use App\Livewire\Posts\PostDetail;
 
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
+
+Route::get('/post/{slug}', PostDetail::class)
+    ->name('post.show'); // Using Livewire component to show a post
+
 
 Route::get('test', [TestController::class, 'index'])
     ->name('test');

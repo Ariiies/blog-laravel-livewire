@@ -128,40 +128,14 @@
     <!-- COMMENTS SECTION -->
     <div class="max-w-4xl mx-auto mt-12 mb-16 bg-white rounded-xl shadow-sm border border-gray-100 p-6 pb-12">
         <h3 class="text-xl font-semibold text-gray-800 mb-4">Comments</h3>
-
+        
         {{-- Mostrar comentarios existentes --}}
-        @if(isset($comments) && count($comments) > 0)
-            <ul class="space-y-4 mb-6">
-                @foreach($comments as $comment)
-                    <li class="p-4 border border-gray-200 rounded-lg">
-                        <div class="flex items-center justify-between mb-1">
-                            <strong class="text-gray-800">{{ $comment->user->name ?? 'Anónimo' }}</strong>
-                            <span class="text-sm text-gray-500">{{ $comment->created_at->diffForHumans() }}</span>
-                        </div>
-                        <p class="text-gray-700">{{ $comment->content }}</p>
-                    </li>
-                @endforeach
-            </ul>
-        @else
-            <p class="text-gray-500 mb-6">No comments yet. be the first in comment!!</p>
-        @endif
+        @livewire('posts.comments', ['post' => $post])
 
         {{-- Formulario para nuevo comentario --}}
-        <form action="/" method="POST" class="space-y-4">
-            @csrf
-            <div>
-                <label for="content" class="block text-sm font-medium text-gray-700">Your comment</label>
-                <textarea id="content" name="content" rows="3" required
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-gray-800"></textarea>
-                @error('content')
-                    <p class="text-sm text-red-500 mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-            <button type="submit"
-                class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition">
-                Coments
-            </button>
-        </form>
+        @livewire('posts.user-comment', ['post' => $post, 'user' => auth()->user()])
+
+        
     </div>
 
     @push('js')
