@@ -2,13 +2,23 @@
     <div class="w-full max-w-4xl mx-4 bg-gray-200 rounded-2xl shadow-sm border border-gray-200 p-8 md:p-10">
         <h1 class="text-3xl md:text-4xl font-bold text-center text-gray-900 mb-6 tracking-tight">Blog Posts</h1>
         <h4 class="text-lg font-medium text-center text-gray-600 mb-8">Total Posts: <span class="text-gray-800">{{ $posts->total() }}</span></h4>
-        
+        <div class="flex justify-center mb-6">
+            <div class="flex items-center gap-3 w-full md:w-2/3">
+            <x-input 
+                type="text" 
+                placeholder="Search posts..." 
+                class="w-full bg-gray-100 text-gray-800 border-gray-300 placeholder-gray-500 focus:bg-white focus:border-blue-400 transition" 
+                wire:model.live="search" 
+            />
+            <flux:button size="sm" class="cursor-pointer">Deep Search</flux:button>
+            </div>
+        </div>
         <ul class="space-y-6">
             @foreach ($posts as $post)
                 @if ($post->is_published && $post->published_at)
                     <li class="bg-white p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md hover:bg-gray-100 transition-all duration-200"
                     wire:key="post-{{ $post->id }}">
-                        <a href="{{ route('post.show', $post->slug) }}" class="block" wire:navigate>
+                        <a href="{{ route('post.show', $post->slug) }}" class="block" >
                             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
                                 <div class="flex items-start gap-4">
                                     @if ($post->image_path)

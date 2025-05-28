@@ -11,9 +11,6 @@ use App\Models\User;
 Route::get('/', [HomeController::class, 'index'])
     ->name('home');
 
-Route::get('profile', [HomeController::class, 'profile'])
-    ->name('profile');
-
 Route::get('test', [TestController::class, 'index'])
     ->name('test');
 

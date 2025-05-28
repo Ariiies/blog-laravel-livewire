@@ -84,7 +84,7 @@
                     <flux:menu.separator />
 
                     <flux:menu.radio.group>
-                        <flux:menu.item :href="route('profile')" icon="user" wire:navigate>{{ __('Profile') }}</flux:menu.item>
+                        <flux:menu.item :href="route('user.profile', ['id' => auth()->id()])" icon="user" wire:navigate>{{ __('Profile') }}</flux:menu.item>
                         <flux:menu.item :href="route('post.create')" icon="document" wire:navigate>{{ __('Create Post') }}</flux:menu.item>
                         @can('access dashboard')
                             <flux:menu.item :href="route('admin.dashboard')" icon="key" wire:navigate>{{ __('Admin') }}</flux:menu.item>
@@ -143,6 +143,7 @@
             <flux:main class="flex-1 w-full">
                 {{ $slot }}
                 @include('components.layouts.footer')
+                
             </flux:main>
 
             
@@ -173,5 +174,6 @@
            
 
             @stack('js')
+            
 </body>
 </html>

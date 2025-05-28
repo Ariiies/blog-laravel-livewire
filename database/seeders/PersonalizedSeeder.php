@@ -34,7 +34,7 @@ class PersonalizedSeeder extends Seeder
             'password' => bcrypt('rob'),
             ],
             [
-            'name' => 'luis meza',
+            'name' => 'Luis Meza',
             'email' => 'luis@meza.com',
             'password' => bcrypt('luismeza'),
             ],

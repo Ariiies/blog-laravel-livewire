@@ -27,10 +27,7 @@ public function show (Post $post) {
     return view('post', compact('post', 'relatedposts'));
 }
 
-public function profile() {
-    
-    return view('profile');
-   }
+
    
 /*
 public function prueba() {

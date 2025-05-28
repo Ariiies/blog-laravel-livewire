@@ -4,6 +4,33 @@
             <h1 class="text-3xl font-bold text-center text-blue-700 mb-6">Edit Post</h1>
             
             <form wire:submit.prevent="updatePost" class="space-y-6">
+                <label class="text-2xl font-bold text-gray-800 mb-4 block">Image</label>
+                <div class="relative mb-2"
+                        x-data="{ uploading: false, progress: 0 }"
+                        x-on:livewire-upload-start="uploading = true"
+                        x-on:livewire-upload-finish="uploading = false"
+                        x-on:livewire-upload-cancel="uploading = false"
+                        x-on:livewire-upload-error="uploading = false"
+                        x-on:livewire-upload-progress="progress = $event.detail.progress"
+                        >
+                    <img id="prev_image" class="w-full aspect-video object-cover object-center" src="{{ $imageUrl }}" alt="image">
+                    <div class="absolute top-3 right-3 text-gray-800">
+                        <label for="image" class="bg-gray-400 hover:bg-gray-300 cursor-pointer text-white text-xs font-medium py-1.5 px-3 rounded transition focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 block">
+                            Change
+                            <input wire:model.lazy="image" type="file" name="image" id="image" accept="image/*" class="hidden">
+                        </label>
+                        @if ($image || $image_path)
+                            <button type="button"
+                                wire:click="removeImage"
+                                class="mt-2 bg-red-400 hover:bg-gray-300 cursor-pointer text-white text-xs font-medium py-1.5 px-3 rounded transition focus:ring-2 focus:ring-gray-300 focus:ring-offset-2">
+                                Remove
+                            </button>
+                        @endif
+                    </div>
+                    <div x-show="uploading">
+                        <progress max="100" x-bind:value="progress"></progress>
+                    </div>
+                </div>
                 <!-- Title -->
                 <div>
                     <label for="title" class="block text-gray-800 font-semibold mb-2">Title</label>
@@ -33,7 +60,7 @@
                 </div>
                 
                 <!-- Image -->
-                <div>
+                <div class="hidden">
                         <label for="image_path" class="block text-gray-800 font-semibold mb-2">Image URL</label>
                         <input type="text" id="image_path" wire:model="image_path" class="w-full border border-gray-300 rounded px-3 py-2 text-gray-900 bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400" placeholder="https://example.com/image.jpg">
                         @error('image_path') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
@@ -66,9 +93,13 @@
                 </div>
                 
                 <!-- Submit Button -->
-                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition">
+                <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700 transition mb-2">
                     Update Post
                 </button>
+                <!-- Cancel Button -->
+                <a href="{{ route('home') }}" class="w-full inline-block text-center bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded hover:bg-gray-400 transition">
+                    Cancel
+                </a>
             </form>
         </div>
     </div>

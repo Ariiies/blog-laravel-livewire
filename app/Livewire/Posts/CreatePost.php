@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 
 class CreatePost extends Component
 {
+    use \Livewire\WithFileUploads;
     public $title, $body, $excerpt, $slug, $image_path, $tags, $is_published = false;
     public $image;
     public $category_id;
@@ -47,7 +48,7 @@ class CreatePost extends Component
             'body' => 'required|min:5',
             'excerpt' => 'required|string|max:255',
             'slug' => 'required|alpha_dash|unique:posts,slug',
-            'image_path' => 'nullable|url',
+            'image_path' => 'nullable',
             'tags' => 'nullable|string|max:255',
             'is_published' => 'boolean',
             'category_id' => 'required|exists:categories,id'
@@ -57,6 +58,12 @@ class CreatePost extends Component
         $tagsArray = array_map('trim', $tagsArray);
         $tagsArray = array_filter($tagsArray);
 
+        if ($this->image) {
+            $this->image_path = $this->image->store('images', 'public');
+        } else {
+            $this->image_path = null;
+        }
+
         $post = Post::create([
             'title' => $this->title,
             'body' => $this->body,
@@ -65,7 +72,8 @@ class CreatePost extends Component
             'image_path' => $this->image_path,
             'is_published' => $this->is_published,
             'user_id' => auth()->id(),
-            'category_id' => $this->category_id
+            'category_id' => $this->category_id,
+            'image_path' => $this->image_path
         ]);
 
         if (!empty($tagsArray)) {
